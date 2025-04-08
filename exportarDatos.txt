@@ -1,0 +1,25 @@
+    def exportarDatos(self):
+        try:
+            encabezados = []
+
+            # Recorrer las columnas
+            for c in range(self.tabla.model().columnCount()):
+                # Agregar el valor string de las columnas al arreglo
+                encabezados.append(self.tabla.horizontalHeaderItem(c).text())
+
+            # Enviar el valor de las columnas al dataframe
+            df = pandas.DataFrame(columns=encabezados)
+
+            # Recorrer las filas
+            for fila in range(self.tabla.rowCount()):
+                # Recorrer las celdas de cada fila
+                for celda in range(self.tabla.columnCount()):
+                    # Agregar al dataframe las celdas por fila
+                    # at = acceder de manera individual a una celda o casilla de la tabla
+                    df.at[fila, encabezados[celda]] = self.tabla.item(fila, celda).text() 
+
+            df.to_excel(r"C:\Users\jonathan.lopez\Desktop\exportacion.xlsx")
+
+            QMessageBox.information(self, "Exportación", "Exportación exitosa", QMessageBox.Ok)  
+        except Exception as e:
+           QMessageBox.information(self, "Exportación", "Error de exportación", QMessageBox.Ok)   
